@@ -18,7 +18,7 @@ namespace Microsoft.Xna.Framework.Graphics
     /// </summary>
     public class SkinnedEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
-        public const int MaxBones = 72;
+        public const int MaxBones = 12;
         
         #region Effect Parameters
 
@@ -33,7 +33,7 @@ namespace Microsoft.Xna.Framework.Graphics
         EffectParameter worldParam;
         EffectParameter worldInverseTransposeParam;
         EffectParameter worldViewProjParam;
-        EffectParameter bonesParam;
+        EffectParameter[] boneParams = new EffectParameter[MaxBones];
         EffectParameter shaderIndexParam;
 
         #endregion
@@ -334,7 +334,11 @@ namespace Microsoft.Xna.Framework.Graphics
             if (boneTransforms.Length > MaxBones)
                 throw new ArgumentException();
 
-            bonesParam.SetValue(boneTransforms);
+            int count = Math.Min(boneTransforms.Length, MaxBones);
+            for (int i = 0; i < count; i++)
+                boneParams[i].SetValue(boneTransforms[i]);
+            for (int i = count; i < MaxBones; i++)
+                boneParams[i].SetValue(Matrix.Identity);
         }
 
 
@@ -346,14 +350,13 @@ namespace Microsoft.Xna.Framework.Graphics
             if (count <= 0 || count > MaxBones)
                 throw new ArgumentOutOfRangeException("count");
 
-            Matrix[] bones = bonesParam.GetValueMatrixArray(count);
-            
-            // Convert matrices from 43 to 44 format.
-            for (int i = 0; i < bones.Length; i++)
+            int n = Math.Min(count, MaxBones);
+            Matrix[] bones = new Matrix[count];
+            for (int i = 0; i < n; i++)
             {
+                bones[i] = boneParams[i].GetValueMatrix();
                 bones[i].M44 = 1;
             }
-            
             return bones;
         }
 
@@ -386,15 +389,11 @@ namespace Microsoft.Xna.Framework.Graphics
 
             SpecularColor = Vector3.One;
             SpecularPower = 16;
-            
-            Matrix[] identityBones = new Matrix[MaxBones];
-            
+
             for (int i = 0; i < MaxBones; i++)
             {
-                identityBones[i] = Matrix.Identity;
+                boneParams[i].SetValue(Matrix.Identity);
             }
-            
-            SetBoneTransforms(identityBones);
         }
 
 
@@ -460,7 +459,18 @@ namespace Microsoft.Xna.Framework.Graphics
             worldParam                  = Parameters["World"];
             worldInverseTransposeParam  = Parameters["WorldInverseTranspose"];
             worldViewProjParam          = Parameters["WorldViewProj"];
-            bonesParam                  = Parameters["Bones"];
+            boneParams[0]  = Parameters["Bones"];
+            boneParams[1]  = Parameters["Bones_1"];
+            boneParams[2]  = Parameters["Bones_2"];
+            boneParams[3]  = Parameters["Bones_3"];
+            boneParams[4]  = Parameters["Bones_4"];
+            boneParams[5]  = Parameters["Bones_5"];
+            boneParams[6]  = Parameters["Bones_6"];
+            boneParams[7]  = Parameters["Bones_7"];
+            boneParams[8]  = Parameters["Bones_8"];
+            boneParams[9]  = Parameters["Bones_9"];
+            boneParams[10] = Parameters["Bones_10"];
+            boneParams[11] = Parameters["Bones_11"];
             shaderIndexParam            = Parameters["ShaderIndex"];
 
             light0 = new DirectionalLight(Parameters["DirLight0Direction"],

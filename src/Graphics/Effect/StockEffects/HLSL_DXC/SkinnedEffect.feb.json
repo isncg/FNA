@@ -1,0 +1,48 @@
+{
+  "techniques": [{
+    "name": "SkinnedEffect",
+    "passes": [{
+      "name": "P0",
+      "vertexShader": {"source": "SkinnedEffect_vs.hlsl", "entry": "VSMain"},
+      "pixelShader": {"source": "SkinnedEffect_ps.hlsl", "entry": "PSMain"}
+    }]
+  }],
+  "parameters": [
+    {"name": "World",                 "type": "MATRIX",  "register": 0,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "WorldInverseTranspose", "type": "MATRIX",  "register": 4,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "WorldViewProj",         "type": "MATRIX",  "register": 8,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "DiffuseColor",          "type": "FLOAT4",  "register": 12, "default": [1,1,1,1]},
+    {"name": "EmissiveColor",         "type": "FLOAT4",  "register": 13, "default": [0,0,0,0]},
+    {"name": "SpecularColor",         "type": "FLOAT4",  "register": 14, "default": [0,0,0,1]},
+    {"name": "EyePosition",           "type": "FLOAT4",  "register": 15, "default": [0,0,0,0]},
+    {"name": "FogVector",             "type": "FLOAT4",  "register": 16, "default": [0,0,0,0]},
+    {"name": "ShaderIndex",           "type": "INT",     "register": 17, "default": [0]},
+
+    {"name": "Bones",   "type": "MATRIX",  "register": 30, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_1",  "type": "MATRIX",  "register": 34, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_2",  "type": "MATRIX",  "register": 38, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_3",  "type": "MATRIX",  "register": 42, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_4",  "type": "MATRIX",  "register": 46, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_5",  "type": "MATRIX",  "register": 50, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_6",  "type": "MATRIX",  "register": 54, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_7",  "type": "MATRIX",  "register": 58, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_8",  "type": "MATRIX",  "register": 62, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_9",  "type": "MATRIX",  "register": 66, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_10", "type": "MATRIX",  "register": 70, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "Bones_11", "type": "MATRIX",  "register": 74, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+
+    {"name": "DirLight0Direction",    "type": "FLOAT4",  "register": 78, "default": [0,-1,0,0]},
+    {"name": "DirLight0DiffuseColor", "type": "FLOAT4",  "register": 79, "default": [1,1,1,1]},
+    {"name": "DirLight0SpecularColor","type": "FLOAT4",  "register": 80, "default": [0,0,0,1]},
+    {"name": "DirLight1Direction",    "type": "FLOAT4",  "register": 81, "default": [0,0,0,0]},
+    {"name": "DirLight1DiffuseColor", "type": "FLOAT4",  "register": 82, "default": [0,0,0,0]},
+    {"name": "DirLight1SpecularColor","type": "FLOAT4",  "register": 83, "default": [0,0,0,0]},
+    {"name": "DirLight2Direction",    "type": "FLOAT4",  "register": 84, "default": [0,0,0,0]},
+    {"name": "DirLight2DiffuseColor", "type": "FLOAT4",  "register": 85, "default": [0,0,0,0]},
+    {"name": "DirLight2SpecularColor","type": "FLOAT4",  "register": 86, "default": [0,0,0,0]},
+
+    {"name": "FogColor",              "type": "FLOAT4",  "register": 87, "default": [0,0,0,0]},
+    {"name": "SpecularPower",         "type": "FLOAT",   "register": 88, "default": [1.0]},
+    {"name": "Texture",               "type": "TEXTURE2D","register": 0}
+  ]
+}

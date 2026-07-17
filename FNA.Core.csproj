@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<PlatformTarget>AnyCPU</PlatformTarget>
 	</PropertyGroup>
 	<PropertyGroup>
@@ -368,29 +368,29 @@
 		<None Include="app.config" />
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\FXB\AlphaTestEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.AlphaTestEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\HLSL_DXC\AlphaTestEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.AlphaTestEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\FXB\BasicEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.BasicEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\HLSL_DXC\BasicEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.BasicEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\FXB\DualTextureEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.DualTextureEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\HLSL_DXC\DualTextureEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.DualTextureEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\FXB\EnvironmentMapEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.EnvironmentMapEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\HLSL_DXC\EnvironmentMapEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.EnvironmentMapEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\FXB\SkinnedEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.SkinnedEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\HLSL_DXC\SkinnedEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.SkinnedEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\FXB\SpriteEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.SpriteEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\StockEffects\HLSL_DXC\SpriteEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.SpriteEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\YUVToRGBA\YUVToRGBAEffect.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.YUVToRGBAEffect.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\YUVToRGBA\YUVToRGBAEffect.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.YUVToRGBAEffect.feb</LogicalName>
 		</EmbeddedResource>
-		<EmbeddedResource Include="src\Graphics\Effect\YUVToRGBA\YUVToRGBAEffectR.fxb">
-			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.YUVToRGBAEffectR.fxb</LogicalName>
+		<EmbeddedResource Include="src\Graphics\Effect\YUVToRGBA\YUVToRGBAEffectR.feb">
+			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.YUVToRGBAEffectR.feb</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

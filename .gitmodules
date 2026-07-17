@@ -4,9 +4,6 @@
 [submodule "lib/FAudio"]
 	path = lib/FAudio
 	url = https://github.com/FNA-XNA/FAudio
-[submodule "lib/FNA3D"]
-	path = lib/FNA3D
-	url = https://github.com/FNA-XNA/FNA3D
 [submodule "lib/Theorafile"]
 	path = lib/Theorafile
 	url = https://github.com/FNA-XNA/Theorafile
@@ -16,3 +13,6 @@
 [submodule "lib/dav1dfile"]
 	path = lib/dav1dfile
 	url = https://github.com/MoonsideGames/dav1dfile
+[submodule "lib/FNA3D"]
+	path = lib/FNA3D
+	url = /home/isn/dev/FNA3D_HLSL

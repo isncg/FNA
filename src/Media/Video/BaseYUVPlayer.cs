@@ -69,7 +69,7 @@ namespace Microsoft.Xna.Framework.Media
 			unsafe
 			{
 				stateChangesPtr = FNAPlatform.Malloc(
-					sizeof(Effect.MOJOSHADER_effectStateChanges)
+					sizeof(FNA3D.FNA3D_EffectStateChanges)
 				);
 			}
 

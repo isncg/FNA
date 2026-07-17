@@ -95,8 +95,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		internal IntPtr values;
 		internal uint valuesSizeBytes;
 
-		internal IntPtr mojoType;
-
+		internal IntPtr paramHandle;
 		internal int elementCount;
 		internal EffectParameterCollection elements;
 		internal EffectParameterCollection members;
@@ -106,6 +105,33 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		// Ugly as all heck, but I had to do it for structures. - MrSoup678
 		private Effect outer;
+
+		#endregion
+
+		#region Internal Methods
+
+		internal unsafe void CommitToNative()
+		{
+			if (paramHandle == IntPtr.Zero || outer == null || outer.glEffect == IntPtr.Zero)
+			{
+				return;
+			}
+
+			// Push the entire parameter value buffer to the native layer
+			if (values != IntPtr.Zero && valuesSizeBytes > 0)
+			{
+				byte[] data = new byte[valuesSizeBytes];
+				Marshal.Copy(values, data, 0, (int) valuesSizeBytes);
+				FNA3D.FNA3D_SetEffectParamValueByHandle(
+					outer.GraphicsDevice.GLDevice,
+					outer.glEffect,
+					paramHandle,
+					data,
+					0,
+					valuesSizeBytes
+				);
+			}
+		}
 
 		#endregion
 
@@ -119,13 +145,13 @@ namespace Microsoft.Xna.Framework.Graphics
 			int elementCount,
 			EffectParameterClass parameterClass,
 			EffectParameterType parameterType,
-			IntPtr mojoType,
 			EffectAnnotationCollection annotations,
 			IntPtr data,
 			uint dataSizeBytes,
-			Effect effect
+			Effect effect,
+			IntPtr paramHandle
 		) {
-			if (data == IntPtr.Zero)
+			if (data == IntPtr.Zero && dataSizeBytes > 0)
 			{
 				throw new ArgumentNullException("data");
 			}
@@ -137,11 +163,11 @@ namespace Microsoft.Xna.Framework.Graphics
 			this.elementCount = elementCount;
 			ParameterClass = parameterClass;
 			ParameterType = parameterType;
-			this.mojoType = mojoType;
 			Annotations = annotations;
 			values = data;
 			valuesSizeBytes = dataSizeBytes;
 			outer = effect;
+			this.paramHandle = paramHandle;
 		}
 
 		internal EffectParameter(
@@ -158,7 +184,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			uint dataSizeBytes,
 			Effect effect
 		) {
-			if (data == IntPtr.Zero)
+			if (data == IntPtr.Zero && dataSizeBytes > 0)
 			{
 				throw new ArgumentNullException("data");
 			}
@@ -183,11 +209,16 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		internal void BuildMemberList()
 		{
-			members = Effect.INTERNAL_readEffectParameterStructureMembers(this, mojoType, outer);
+			// FNA3D_HLSL flattens parameters — no struct member hierarchy to read.
+			members = new EffectParameterCollection(new List<EffectParameter>(0));
 		}
 
 		internal void BuildElementList()
 		{
+			/* FNA3D_HLSL flattens all parameters. Struct members are
+			 * always empty, and array elements simply offset into the
+			 * same value buffer.
+			 */
 			int curOffset = 0;
 			List<EffectParameter> elements = new List<EffectParameter>(elementCount);
 			EffectParameterCollection structureMembers = StructureMembers;
@@ -217,7 +248,7 @@ namespace Microsoft.Xna.Framework.Graphics
 							memElems,
 							structureMembers[j].ParameterClass,
 							structureMembers[j].ParameterType,
-							IntPtr.Zero, // FIXME: Nested structs! -flibit
+							null, /* structureMembers: no nested structs */
 							structureMembers[j].Annotations,
 							new IntPtr(values.ToInt64() + curOffset),
 							(uint) memSize * 4,
@@ -227,7 +258,6 @@ namespace Microsoft.Xna.Framework.Graphics
 					}
 					elementMembers = new EffectParameterCollection(memList);
 				}
-				// FIXME: Probably incomplete? -flibit
 				elements.Add(new EffectParameter(
 					null,
 					null,
@@ -236,14 +266,13 @@ namespace Microsoft.Xna.Framework.Graphics
 					0,
 					ParameterClass,
 					ParameterType,
-					elementMembers,
-					null,
+					null, /* annotations */
 					new IntPtr(
 						values.ToInt64() + (i * RowCount * 16)
 					),
-					// FIXME: Not obvious to me how to compute this -kg
-					0,
-					outer
+					(uint) (RowCount * 16), /* dataSizeBytes */
+					outer,
+					paramHandle
 				));
 			}
 			this.elements = new EffectParameterCollection(elements);

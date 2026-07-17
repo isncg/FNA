@@ -366,7 +366,7 @@ namespace Microsoft.Xna.Framework.Graphics
             DirectionalLight0.Enabled = true;
 
             EnvironmentMapAmount = 1;
-            EnvironmentMapSpecular = Vector3.Zero;
+            EnvironmentMapSpecular = Vector3.One;
             FresnelFactor = 1;
         }
 

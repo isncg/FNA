@@ -24,6 +24,9 @@ namespace Microsoft.Xna.Framework.Graphics
         EffectParameter worldViewProjParam;
         EffectParameter shaderIndexParam;
 
+        EffectTechnique techniquePT;
+        EffectTechnique techniquePCT;
+
         #endregion
 
         #region Fields
@@ -309,6 +312,9 @@ namespace Microsoft.Xna.Framework.Graphics
             fogVectorParam      = Parameters["FogVector"];
             worldViewProjParam  = Parameters["WorldViewProj"];
             shaderIndexParam    = Parameters["ShaderIndex"];
+
+            techniquePT  = Techniques["PT"];
+            techniquePCT = Techniques["PCT"];
         }
 
 
@@ -415,20 +421,26 @@ namespace Microsoft.Xna.Framework.Graphics
                 }
             }
 
+            // Select technique based on vertexColorEnabled
+            EffectTechnique target = vertexColorEnabled ? techniquePCT : techniquePT;
+            if (CurrentTechnique != target)
+            {
+                CurrentTechnique = target;
+            }
+
             // Recompute the shader index?
             if ((dirtyFlags & EffectDirtyFlags.ShaderIndex) != 0)
             {
                 int shaderIndex = 0;
-                
+
                 if (!fogEnabled)
                     shaderIndex += 1;
-                
-                if (vertexColorEnabled)
-                    shaderIndex += 2;
-                
+
+                // vertexColorEnabled bit (+2) removed — technique handles it
+
                 if (isEqNe)
                     shaderIndex += 4;
-                
+
                 shaderIndexParam.SetValue(shaderIndex);
 
                 dirtyFlags &= ~EffectDirtyFlags.ShaderIndex;

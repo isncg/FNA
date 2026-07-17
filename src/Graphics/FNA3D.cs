@@ -24,6 +24,26 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		#endregion
 
+		#region Effect Parameter Type Enum
+
+		public enum FNA3D_EffectParamType
+		{
+			FNA3D_EFFECTPARAM_FLOAT,
+			FNA3D_EFFECTPARAM_FLOAT2,
+			FNA3D_EFFECTPARAM_FLOAT3,
+			FNA3D_EFFECTPARAM_FLOAT4,
+			FNA3D_EFFECTPARAM_INT,
+			FNA3D_EFFECTPARAM_BOOL,
+			FNA3D_EFFECTPARAM_MATRIX,
+			FNA3D_EFFECTPARAM_TEXTURE,
+			FNA3D_EFFECTPARAM_TEXTURE1D,
+			FNA3D_EFFECTPARAM_TEXTURE2D,
+			FNA3D_EFFECTPARAM_TEXTURE3D,
+			FNA3D_EFFECTPARAM_TEXTURECUBE
+		}
+
+		#endregion
+
 		#region Native Structures
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -140,6 +160,14 @@ namespace Microsoft.Xna.Framework.Graphics
 			public PresentInterval presentationInterval;
 			public DisplayOrientation displayOrientation;
 			public RenderTargetUsage renderTargetUsage;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		internal struct FNA3D_EffectStateChanges
+		{
+			public uint renderStateChangeCount;
+			public uint samplerStateChangeCount;
+			public IntPtr data;
 		}
 
 		#endregion
@@ -698,12 +726,11 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		/* IntPtr refers to an FNA3D_Effect* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
-		public static extern void FNA3D_CreateEffect(
+		public static extern byte FNA3D_CreateEffect(
 			IntPtr device,
 			byte[] effectCode,
-			int length,
-			out IntPtr effect,
-			out IntPtr effectData
+			int effectCodeLength,
+			out IntPtr effect
 		);
 
 		/* IntPtr refers to an FNA3D_Effect* */
@@ -711,8 +738,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		public static extern void FNA3D_CloneEffect(
 			IntPtr device,
 			IntPtr cloneSource,
-			out IntPtr effect,
-			out IntPtr effectData
+			out IntPtr effect
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -721,7 +747,7 @@ namespace Microsoft.Xna.Framework.Graphics
 			IntPtr effect
 		);
 
-		/* effect refers to a MOJOSHADER_effect*, technique to a MOJOSHADER_effectTechnique* */
+		/* effect refers to an FNA3D_Effect*, technique to an FNA3D_EffectTechnique* */
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FNA3D_SetEffectTechnique(
 			IntPtr device,
@@ -734,20 +760,100 @@ namespace Microsoft.Xna.Framework.Graphics
 			IntPtr device,
 			IntPtr effect,
 			uint pass,
-			IntPtr stateChanges /* MOJOSHADER_effectStateChanges* */
+			IntPtr stateChanges /* FNA3D_EffectStateChanges* */
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FNA3D_BeginPassRestore(
 			IntPtr device,
 			IntPtr effect,
-			IntPtr stateChanges /* MOJOSHADER_effectStateChanges* */
+			IntPtr stateChanges /* FNA3D_EffectStateChanges* */
 		);
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
 		public static extern void FNA3D_EndPassRestore(
 			IntPtr device,
 			IntPtr effect
+		);
+
+		#endregion
+
+		#region Effect Metadata Accessors
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int FNA3D_GetEffectTechniqueCount(IntPtr effect);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetEffectTechnique(
+			IntPtr effect,
+			int index
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetTechniqueName(IntPtr technique);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int FNA3D_GetTechniquePassCount(IntPtr technique);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetPassName(
+			IntPtr technique,
+			int passIndex
+		);
+
+		#endregion
+
+		#region Effect Parameter Introspection
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern int FNA3D_GetEffectParamCount(IntPtr effect);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetEffectParam(
+			IntPtr effect,
+			int index
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetEffectParamByName(
+			IntPtr effect,
+			IntPtr name
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetParamName(IntPtr param);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GetParamSemantic(IntPtr param);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern FNA3D_EffectParamType FNA3D_GetParamType(IntPtr param);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern uint FNA3D_GetParamRegisterIndex(IntPtr param);
+
+		#endregion
+
+		#region Effect Parameter Setters
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_SetEffectParamValue(
+			IntPtr device,
+			IntPtr effect,
+			byte[] paramName,
+			byte[] data,
+			uint offset,
+			uint length
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_SetEffectParamValueByHandle(
+			IntPtr device,
+			IntPtr effect,
+			IntPtr param,
+			byte[] data,
+			uint offset,
+			uint length
 		);
 
 		#endregion

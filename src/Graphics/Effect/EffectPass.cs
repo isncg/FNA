@@ -36,6 +36,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		private Effect parentEffect;
 		private IntPtr parentTechnique;
 		private uint pass;
+		private uint globalPass;
 
 		#endregion
 
@@ -46,13 +47,15 @@ namespace Microsoft.Xna.Framework.Graphics
 			EffectAnnotationCollection annotations,
 			Effect parent,
 			IntPtr technique,
-			uint passIndex
+			uint passIndex,
+			uint globalPassIndex
 		) {
 			Name = name;
 			Annotations = annotations;
 			parentEffect = parent;
 			parentTechnique = technique;
 			pass = passIndex;
+			globalPass = globalPassIndex;
 		}
 
 		#endregion
@@ -68,7 +71,7 @@ namespace Microsoft.Xna.Framework.Graphics
 				);
 			}
 			parentEffect.OnApply();
-			parentEffect.INTERNAL_applyEffect(pass);
+			parentEffect.INTERNAL_applyEffect(globalPass);
 		}
 
 		#endregion

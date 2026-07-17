@@ -1,0 +1,67 @@
+{
+  "techniques": [
+    {
+      "name": "PNT",
+      "passes": [
+        {
+          "name": "P0",
+          "vertexShader": {"source": "BasicEffect_vs.hlsl", "entry": "VSMain_PNT"},
+          "pixelShader":  {"source": "BasicEffect_ps.hlsl", "entry": "PSMain"}
+        }
+      ]
+    },
+    {
+      "name": "PT",
+      "passes": [
+        {
+          "name": "P0",
+          "vertexShader": {"source": "BasicEffect_vs.hlsl", "entry": "VSMain_PT"},
+          "pixelShader":  {"source": "BasicEffect_ps.hlsl", "entry": "PSMain"}
+        }
+      ]
+    },
+    {
+      "name": "PC",
+      "passes": [
+        {
+          "name": "P0",
+          "vertexShader": {"source": "BasicEffect_vs.hlsl", "entry": "VSMain_PC"},
+          "pixelShader":  {"source": "BasicEffect_ps.hlsl", "entry": "PSMain"}
+        }
+      ]
+    },
+    {
+      "name": "PCT",
+      "passes": [
+        {
+          "name": "P0",
+          "vertexShader": {"source": "BasicEffect_vs.hlsl", "entry": "VSMain_PCT"},
+          "pixelShader":  {"source": "BasicEffect_ps.hlsl", "entry": "PSMain"}
+        }
+      ]
+    }
+  ],
+  "parameters": [
+    {"name": "World",                   "type": "MATRIX",  "register": 0,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "WorldInverseTranspose",   "type": "MATRIX",  "register": 4,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "WorldViewProj",           "type": "MATRIX",  "register": 8,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
+    {"name": "DiffuseColor",            "type": "FLOAT4",  "register": 12, "default": [1,1,1,1]},
+    {"name": "EmissiveColor",           "type": "FLOAT4",  "register": 13, "default": [0,0,0,0]},
+    {"name": "SpecularColor",           "type": "FLOAT4",  "register": 14, "default": [0,0,0,1]},
+    {"name": "EyePosition",             "type": "FLOAT4",  "register": 15, "default": [0,0,0,0]},
+    {"name": "FogVector",               "type": "FLOAT4",  "register": 16, "default": [0,0,0,0]},
+    {"name": "ShaderIndex",             "type": "INT",     "register": 17, "default": [0]},
+    {"name": "DirLight0Direction",      "type": "FLOAT4",  "register": 18, "default": [0,-1,0,0]},
+    {"name": "DirLight0DiffuseColor",   "type": "FLOAT4",  "register": 19, "default": [1,1,1,1]},
+    {"name": "DirLight0SpecularColor",  "type": "FLOAT4",  "register": 20, "default": [0,0,0,1]},
+    {"name": "DirLight1Direction",      "type": "FLOAT4",  "register": 21, "default": [0,0,0,0]},
+    {"name": "DirLight1DiffuseColor",   "type": "FLOAT4",  "register": 22, "default": [0,0,0,0]},
+    {"name": "DirLight1SpecularColor",  "type": "FLOAT4",  "register": 23, "default": [0,0,0,0]},
+    {"name": "DirLight2Direction",      "type": "FLOAT4",  "register": 24, "default": [0,0,0,0]},
+    {"name": "DirLight2DiffuseColor",   "type": "FLOAT4",  "register": 25, "default": [0,0,0,0]},
+    {"name": "DirLight2SpecularColor",  "type": "FLOAT4",  "register": 26, "default": [0,0,0,0]},
+    {"name": "FogColor",                "type": "FLOAT4",  "register": 27, "default": [0,0,0,0]},
+    {"name": "SpecularPower",           "type": "FLOAT",   "register": 28, "default": [1.0]},
+    {"name": "Texture",                 "type": "TEXTURE2D","register": 0}
+  ]
+}

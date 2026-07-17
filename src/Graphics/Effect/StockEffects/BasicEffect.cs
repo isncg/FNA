@@ -29,6 +29,11 @@ namespace Microsoft.Xna.Framework.Graphics
         EffectParameter worldViewProjParam;
         EffectParameter shaderIndexParam;
 
+        EffectTechnique techniquePNT;
+        EffectTechnique techniquePT;
+        EffectTechnique techniquePC;
+        EffectTechnique techniquePCT;
+
         #endregion
 
         #region Fields
@@ -450,6 +455,11 @@ namespace Microsoft.Xna.Framework.Graphics
                                           Parameters["DirLight2DiffuseColor"],
                                           Parameters["DirLight2SpecularColor"],
                                           (cloneSource != null) ? cloneSource.light2 : null);
+
+            techniquePNT = Techniques["PNT"];
+            techniquePT  = Techniques["PT"];
+            techniquePC  = Techniques["PC"];
+            techniquePCT = Techniques["PCT"];
         }
 
 
@@ -469,14 +479,37 @@ namespace Microsoft.Xna.Framework.Graphics
                 dirtyFlags &= ~EffectDirtyFlags.MaterialColor;
             }
 
-            if (lightingEnabled)
+            // Select technique based on input-signature-affecting flags.
+            // Technique determines the vertex input layout:
+            //   PNT = Position+Normal+TexCoord (lit, no vertex color)
+            //   PT  = Position+TexCoord        (unlit, no vertex color)
+            //   PC  = Position+Color           (vertex color, no texture)
+            //   PCT = Position+Color+TexCoord  (vertex color + texture)
+            EffectTechnique target;
+            bool effectiveLighting = lightingEnabled && !vertexColorEnabled;
+
+            if (vertexColorEnabled)
+            {
+                target = textureEnabled ? techniquePCT : techniquePC;
+            }
+            else
+            {
+                target = effectiveLighting ? techniquePNT : techniquePT;
+            }
+
+            if (CurrentTechnique != target)
+            {
+                CurrentTechnique = target;
+            }
+
+            if (effectiveLighting)
             {
                 // Recompute the world inverse transpose and eye position?
                 dirtyFlags = EffectHelpers.SetLightingMatrices(dirtyFlags, ref world, ref view, worldParam, worldInverseTransposeParam, eyePositionParam);
-                
+
                 // Check if we can use the only-bother-with-the-first-light shader optimization.
                 bool newOneLight = !light1.Enabled && !light2.Enabled;
-                
+
                 if (oneLight != newOneLight)
                 {
                     oneLight = newOneLight;
@@ -488,17 +521,16 @@ namespace Microsoft.Xna.Framework.Graphics
             if ((dirtyFlags & EffectDirtyFlags.ShaderIndex) != 0)
             {
                 int shaderIndex = 0;
-                
+
                 if (!fogEnabled)
                     shaderIndex += 1;
-                
-                if (vertexColorEnabled)
-                    shaderIndex += 2;
-                
+
+                // vertexColorEnabled bit (+2) removed — technique handles it
+
                 if (textureEnabled)
                     shaderIndex += 4;
 
-                if (lightingEnabled)
+                if (effectiveLighting)
                 {
                     if (preferPerPixelLighting)
                         shaderIndex += 24;

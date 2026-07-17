@@ -476,13 +476,12 @@ namespace Microsoft.Xna.Framework.Graphics
 			unsafe
 			{
 				effectStateChangesPtr = FNAPlatform.Malloc(
-					sizeof(Effect.MOJOSHADER_effectStateChanges)
+					sizeof(FNA3D.FNA3D_EffectStateChanges)
 				);
-                Effect.MOJOSHADER_effectStateChanges* stateChanges =
-					(Effect.MOJOSHADER_effectStateChanges*) effectStateChangesPtr;
-				stateChanges->render_state_change_count = 0;
-				stateChanges->sampler_state_change_count = 0;
-				stateChanges->vertex_sampler_state_change_count = 0;
+				FNA3D.FNA3D_EffectStateChanges* stateChanges =
+					(FNA3D.FNA3D_EffectStateChanges*) effectStateChangesPtr;
+				stateChanges->renderStateChangeCount = 0;
+				stateChanges->samplerStateChangeCount = 0;
 			}
 		}
 

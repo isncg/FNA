@@ -1,0 +1,17 @@
+{
+  "techniques": [
+    {
+      "name": "SpriteBatch",
+      "passes": [
+        {
+          "name": "P0",
+          "vertexShader": {"source": "SpriteEffect_vs.hlsl", "entry": "VSMain"},
+          "pixelShader": {"source": "SpriteEffect_ps.hlsl", "entry": "PSMain"}
+        }
+      ]
+    }
+  ],
+  "parameters": [
+    {"name": "MatrixTransform", "type": "MATRIX", "register": 0, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]}
+  ]
+}
