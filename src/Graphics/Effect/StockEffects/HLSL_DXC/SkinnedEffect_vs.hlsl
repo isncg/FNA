@@ -1,5 +1,5 @@
 // SkinnedEffect vertex shader — strict HLSL vertex convention.
-// Supports up to 12 bones (48 registers). ShaderIndex controls fog/lighting.
+// Supports up to 72 bones (288 registers). ShaderIndex controls fog/lighting.
 //
 // ShaderIndex bit layout (matching SkinnedEffect.cs OnApply):
 //   bit 0: fogEnabled (0=enabled, 1=disabled)
@@ -20,24 +20,19 @@ float4 EyePosition          : register(c15);
 float4 FogVector            : register(c16);
 int ShaderIndex             : register(c17);
 
-// Bones (12 bones × 4 registers each = 48 registers starting at c30)
-float4x4 Bone0  : register(c30);  float4x4 Bone1  : register(c34);
-float4x4 Bone2  : register(c38);  float4x4 Bone3  : register(c42);
-float4x4 Bone4  : register(c46);  float4x4 Bone5  : register(c50);
-float4x4 Bone6  : register(c54);  float4x4 Bone7  : register(c58);
-float4x4 Bone8  : register(c62);  float4x4 Bone9  : register(c66);
-float4x4 Bone10 : register(c70);  float4x4 Bone11 : register(c74);
+// 72 bones × 4 registers each = 288 registers (c30–c317)
+float4x4 Bones[72]          : register(c30);
 
-// Lights (after bones)
-float4 DirLight0Direction    : register(c78);
-float4 DirLight0DiffuseColor : register(c79);
-float4 DirLight0SpecularColor : register(c80);
-float4 DirLight1Direction    : register(c81);
-float4 DirLight1DiffuseColor : register(c82);
-float4 DirLight1SpecularColor : register(c83);
-float4 DirLight2Direction    : register(c84);
-float4 DirLight2DiffuseColor : register(c85);
-float4 DirLight2SpecularColor : register(c86);
+// Lights (after bones, at c318+)
+float4 DirLight0Direction    : register(c318);
+float4 DirLight0DiffuseColor : register(c319);
+float4 DirLight0SpecularColor : register(c320);
+float4 DirLight1Direction    : register(c321);
+float4 DirLight1DiffuseColor : register(c322);
+float4 DirLight1SpecularColor : register(c323);
+float4 DirLight2Direction    : register(c324);
+float4 DirLight2DiffuseColor : register(c325);
+float4 DirLight2SpecularColor : register(c326);
 
 // ─── VS_INPUT (P, N, T, BlendIndices(float4), BlendWeights) — no Color ─
 
@@ -62,19 +57,6 @@ struct VS_OUTPUT
     float3 EyeDir       : TEXCOORD3;
     float3 WorldPos     : TEXCOORD4;
 };
-
-// ─── Bone lookup ──────────────────────────────────────────────────────
-
-float4x4 GetBone(int index)
-{
-    if (index == 0) return Bone0;   if (index == 1) return Bone1;
-    if (index == 2) return Bone2;   if (index == 3) return Bone3;
-    if (index == 4) return Bone4;   if (index == 5) return Bone5;
-    if (index == 6) return Bone6;   if (index == 7) return Bone7;
-    if (index == 8) return Bone8;   if (index == 9) return Bone9;
-    if (index == 10) return Bone10; if (index == 11) return Bone11;
-    return float4x4(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1); // identity fallback
-}
 
 // ─── Shared vertex lighting helper ────────────────────────────────────
 
@@ -103,12 +85,12 @@ VS_OUTPUT VSMain(VS_INPUT input)
 {
     VS_OUTPUT output;
 
-    // Bone skinning — BlendIndices as int (cast from float, Byte4 in XNA)
+    // Bone skinning — BlendIndices as int (cast from float)
     int4 indices = int4(input.BlendIndices);
-    float4x4 skinMatrix = GetBone(indices.x) * input.BlendWeights.x
-                        + GetBone(indices.y) * input.BlendWeights.y
-                        + GetBone(indices.z) * input.BlendWeights.z
-                        + GetBone(indices.w) * input.BlendWeights.w;
+    float4x4 skinMatrix = Bones[indices.x] * input.BlendWeights.x
+                        + Bones[indices.y] * input.BlendWeights.y
+                        + Bones[indices.z] * input.BlendWeights.z
+                        + Bones[indices.w] * input.BlendWeights.w;
 
     float4 skinnedPos = mul(input.Position, skinMatrix);
     float3x3 skinMatrix3x3 = (float3x3) skinMatrix;

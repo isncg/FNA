@@ -7,18 +7,18 @@ float4 DiffuseColor         : register(c12);
 float4 EmissiveColor        : register(c13);
 float4 SpecularColor        : register(c14);
 float4 EyePosition          : register(c15);
-float3 FogColor             : register(c87);
+float3 FogColor             : register(c327);
 int ShaderIndex             : register(c17);
 
-float4 DirLight0Direction    : register(c78);
-float4 DirLight0DiffuseColor : register(c79);
-float4 DirLight0SpecularColor : register(c80);
-float4 DirLight1Direction    : register(c81);
-float4 DirLight1DiffuseColor : register(c82);
-float4 DirLight1SpecularColor : register(c83);
-float4 DirLight2Direction    : register(c84);
-float4 DirLight2DiffuseColor : register(c85);
-float4 DirLight2SpecularColor : register(c86);
+float4 DirLight0Direction    : register(c318);
+float4 DirLight0DiffuseColor : register(c319);
+float4 DirLight0SpecularColor : register(c320);
+float4 DirLight1Direction    : register(c321);
+float4 DirLight1DiffuseColor : register(c322);
+float4 DirLight1SpecularColor : register(c323);
+float4 DirLight2Direction    : register(c324);
+float4 DirLight2DiffuseColor : register(c325);
+float4 DirLight2SpecularColor : register(c326);
 
 float4 PSMain(
     float4 position    : SV_POSITION,

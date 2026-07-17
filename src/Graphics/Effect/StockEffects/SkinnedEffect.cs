@@ -18,7 +18,7 @@ namespace Microsoft.Xna.Framework.Graphics
     /// </summary>
     public class SkinnedEffect : Effect, IEffectMatrices, IEffectLights, IEffectFog
     {
-        public const int MaxBones = 12;
+        public const int MaxBones = 72;
         
         #region Effect Parameters
 
@@ -459,18 +459,9 @@ namespace Microsoft.Xna.Framework.Graphics
             worldParam                  = Parameters["World"];
             worldInverseTransposeParam  = Parameters["WorldInverseTranspose"];
             worldViewProjParam          = Parameters["WorldViewProj"];
-            boneParams[0]  = Parameters["Bones"];
-            boneParams[1]  = Parameters["Bones_1"];
-            boneParams[2]  = Parameters["Bones_2"];
-            boneParams[3]  = Parameters["Bones_3"];
-            boneParams[4]  = Parameters["Bones_4"];
-            boneParams[5]  = Parameters["Bones_5"];
-            boneParams[6]  = Parameters["Bones_6"];
-            boneParams[7]  = Parameters["Bones_7"];
-            boneParams[8]  = Parameters["Bones_8"];
-            boneParams[9]  = Parameters["Bones_9"];
-            boneParams[10] = Parameters["Bones_10"];
-            boneParams[11] = Parameters["Bones_11"];
+            boneParams[0] = Parameters["Bones"];
+            for (int i = 1; i < MaxBones; i++)
+                boneParams[i] = Parameters[$"Bones_{i}"];
             shaderIndexParam            = Parameters["ShaderIndex"];
 
             light0 = new DirectionalLight(Parameters["DirLight0Direction"],

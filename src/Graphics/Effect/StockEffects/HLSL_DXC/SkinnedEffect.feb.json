@@ -1,48 +1,1933 @@
 {
-  "techniques": [{
-    "name": "SkinnedEffect",
-    "passes": [{
-      "name": "P0",
-      "vertexShader": {"source": "SkinnedEffect_vs.hlsl", "entry": "VSMain"},
-      "pixelShader": {"source": "SkinnedEffect_ps.hlsl", "entry": "PSMain"}
-    }]
-  }],
+  "techniques": [
+    {
+      "name": "SkinnedEffect",
+      "passes": [
+        {
+          "name": "P0",
+          "vertexShader": {
+            "source": "SkinnedEffect_vs.hlsl",
+            "entry": "VSMain"
+          },
+          "pixelShader": {
+            "source": "SkinnedEffect_ps.hlsl",
+            "entry": "PSMain"
+          }
+        }
+      ]
+    }
+  ],
   "parameters": [
-    {"name": "World",                 "type": "MATRIX",  "register": 0,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "WorldInverseTranspose", "type": "MATRIX",  "register": 4,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "WorldViewProj",         "type": "MATRIX",  "register": 8,  "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "DiffuseColor",          "type": "FLOAT4",  "register": 12, "default": [1,1,1,1]},
-    {"name": "EmissiveColor",         "type": "FLOAT4",  "register": 13, "default": [0,0,0,0]},
-    {"name": "SpecularColor",         "type": "FLOAT4",  "register": 14, "default": [0,0,0,1]},
-    {"name": "EyePosition",           "type": "FLOAT4",  "register": 15, "default": [0,0,0,0]},
-    {"name": "FogVector",             "type": "FLOAT4",  "register": 16, "default": [0,0,0,0]},
-    {"name": "ShaderIndex",           "type": "INT",     "register": 17, "default": [0]},
-
-    {"name": "Bones",   "type": "MATRIX",  "register": 30, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_1",  "type": "MATRIX",  "register": 34, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_2",  "type": "MATRIX",  "register": 38, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_3",  "type": "MATRIX",  "register": 42, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_4",  "type": "MATRIX",  "register": 46, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_5",  "type": "MATRIX",  "register": 50, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_6",  "type": "MATRIX",  "register": 54, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_7",  "type": "MATRIX",  "register": 58, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_8",  "type": "MATRIX",  "register": 62, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_9",  "type": "MATRIX",  "register": 66, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_10", "type": "MATRIX",  "register": 70, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-    {"name": "Bones_11", "type": "MATRIX",  "register": 74, "default": [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]},
-
-    {"name": "DirLight0Direction",    "type": "FLOAT4",  "register": 78, "default": [0,-1,0,0]},
-    {"name": "DirLight0DiffuseColor", "type": "FLOAT4",  "register": 79, "default": [1,1,1,1]},
-    {"name": "DirLight0SpecularColor","type": "FLOAT4",  "register": 80, "default": [0,0,0,1]},
-    {"name": "DirLight1Direction",    "type": "FLOAT4",  "register": 81, "default": [0,0,0,0]},
-    {"name": "DirLight1DiffuseColor", "type": "FLOAT4",  "register": 82, "default": [0,0,0,0]},
-    {"name": "DirLight1SpecularColor","type": "FLOAT4",  "register": 83, "default": [0,0,0,0]},
-    {"name": "DirLight2Direction",    "type": "FLOAT4",  "register": 84, "default": [0,0,0,0]},
-    {"name": "DirLight2DiffuseColor", "type": "FLOAT4",  "register": 85, "default": [0,0,0,0]},
-    {"name": "DirLight2SpecularColor","type": "FLOAT4",  "register": 86, "default": [0,0,0,0]},
-
-    {"name": "FogColor",              "type": "FLOAT4",  "register": 87, "default": [0,0,0,0]},
-    {"name": "SpecularPower",         "type": "FLOAT",   "register": 88, "default": [1.0]},
-    {"name": "Texture",               "type": "TEXTURE2D","register": 0}
+    {
+      "name": "World",
+      "type": "MATRIX",
+      "register": 0,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Texture",
+      "type": "TEXTURE2D",
+      "register": 0
+    },
+    {
+      "name": "WorldInverseTranspose",
+      "type": "MATRIX",
+      "register": 4,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "WorldViewProj",
+      "type": "MATRIX",
+      "register": 8,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "DiffuseColor",
+      "type": "FLOAT4",
+      "register": 12,
+      "default": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "EmissiveColor",
+      "type": "FLOAT4",
+      "register": 13,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SpecularColor",
+      "type": "FLOAT4",
+      "register": 14,
+      "default": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "EyePosition",
+      "type": "FLOAT4",
+      "register": 15,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FogVector",
+      "type": "FLOAT4",
+      "register": 16,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "ShaderIndex",
+      "type": "INT",
+      "register": 17,
+      "default": [
+        0
+      ]
+    },
+    {
+      "name": "Bones",
+      "type": "MATRIX",
+      "register": 30,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_1",
+      "type": "MATRIX",
+      "register": 34,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_2",
+      "type": "MATRIX",
+      "register": 38,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_3",
+      "type": "MATRIX",
+      "register": 42,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_4",
+      "type": "MATRIX",
+      "register": 46,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_5",
+      "type": "MATRIX",
+      "register": 50,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_6",
+      "type": "MATRIX",
+      "register": 54,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_7",
+      "type": "MATRIX",
+      "register": 58,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_8",
+      "type": "MATRIX",
+      "register": 62,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_9",
+      "type": "MATRIX",
+      "register": 66,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_10",
+      "type": "MATRIX",
+      "register": 70,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_11",
+      "type": "MATRIX",
+      "register": 74,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_12",
+      "type": "MATRIX",
+      "register": 78,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_13",
+      "type": "MATRIX",
+      "register": 82,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_14",
+      "type": "MATRIX",
+      "register": 86,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_15",
+      "type": "MATRIX",
+      "register": 90,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_16",
+      "type": "MATRIX",
+      "register": 94,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_17",
+      "type": "MATRIX",
+      "register": 98,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_18",
+      "type": "MATRIX",
+      "register": 102,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_19",
+      "type": "MATRIX",
+      "register": 106,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_20",
+      "type": "MATRIX",
+      "register": 110,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_21",
+      "type": "MATRIX",
+      "register": 114,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_22",
+      "type": "MATRIX",
+      "register": 118,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_23",
+      "type": "MATRIX",
+      "register": 122,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_24",
+      "type": "MATRIX",
+      "register": 126,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_25",
+      "type": "MATRIX",
+      "register": 130,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_26",
+      "type": "MATRIX",
+      "register": 134,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_27",
+      "type": "MATRIX",
+      "register": 138,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_28",
+      "type": "MATRIX",
+      "register": 142,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_29",
+      "type": "MATRIX",
+      "register": 146,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_30",
+      "type": "MATRIX",
+      "register": 150,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_31",
+      "type": "MATRIX",
+      "register": 154,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_32",
+      "type": "MATRIX",
+      "register": 158,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_33",
+      "type": "MATRIX",
+      "register": 162,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_34",
+      "type": "MATRIX",
+      "register": 166,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_35",
+      "type": "MATRIX",
+      "register": 170,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_36",
+      "type": "MATRIX",
+      "register": 174,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_37",
+      "type": "MATRIX",
+      "register": 178,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_38",
+      "type": "MATRIX",
+      "register": 182,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_39",
+      "type": "MATRIX",
+      "register": 186,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_40",
+      "type": "MATRIX",
+      "register": 190,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_41",
+      "type": "MATRIX",
+      "register": 194,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_42",
+      "type": "MATRIX",
+      "register": 198,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_43",
+      "type": "MATRIX",
+      "register": 202,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_44",
+      "type": "MATRIX",
+      "register": 206,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_45",
+      "type": "MATRIX",
+      "register": 210,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_46",
+      "type": "MATRIX",
+      "register": 214,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_47",
+      "type": "MATRIX",
+      "register": 218,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_48",
+      "type": "MATRIX",
+      "register": 222,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_49",
+      "type": "MATRIX",
+      "register": 226,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_50",
+      "type": "MATRIX",
+      "register": 230,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_51",
+      "type": "MATRIX",
+      "register": 234,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_52",
+      "type": "MATRIX",
+      "register": 238,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_53",
+      "type": "MATRIX",
+      "register": 242,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_54",
+      "type": "MATRIX",
+      "register": 246,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_55",
+      "type": "MATRIX",
+      "register": 250,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_56",
+      "type": "MATRIX",
+      "register": 254,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_57",
+      "type": "MATRIX",
+      "register": 258,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_58",
+      "type": "MATRIX",
+      "register": 262,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_59",
+      "type": "MATRIX",
+      "register": 266,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_60",
+      "type": "MATRIX",
+      "register": 270,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_61",
+      "type": "MATRIX",
+      "register": 274,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_62",
+      "type": "MATRIX",
+      "register": 278,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_63",
+      "type": "MATRIX",
+      "register": 282,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_64",
+      "type": "MATRIX",
+      "register": 286,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_65",
+      "type": "MATRIX",
+      "register": 290,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_66",
+      "type": "MATRIX",
+      "register": 294,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_67",
+      "type": "MATRIX",
+      "register": 298,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_68",
+      "type": "MATRIX",
+      "register": 302,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_69",
+      "type": "MATRIX",
+      "register": 306,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_70",
+      "type": "MATRIX",
+      "register": 310,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "Bones_71",
+      "type": "MATRIX",
+      "register": 314,
+      "default": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "DirLight0Direction",
+      "type": "FLOAT4",
+      "register": 318,
+      "default": [
+        0,
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DirLight0DiffuseColor",
+      "type": "FLOAT4",
+      "register": 319,
+      "default": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "DirLight0SpecularColor",
+      "type": "FLOAT4",
+      "register": 320,
+      "default": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "DirLight1Direction",
+      "type": "FLOAT4",
+      "register": 321,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DirLight1DiffuseColor",
+      "type": "FLOAT4",
+      "register": 322,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DirLight1SpecularColor",
+      "type": "FLOAT4",
+      "register": 323,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DirLight2Direction",
+      "type": "FLOAT4",
+      "register": 324,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DirLight2DiffuseColor",
+      "type": "FLOAT4",
+      "register": 325,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "DirLight2SpecularColor",
+      "type": "FLOAT4",
+      "register": 326,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FogColor",
+      "type": "FLOAT4",
+      "register": 327,
+      "default": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "SpecularPower",
+      "type": "FLOAT",
+      "register": 328,
+      "default": [
+        1.0
+      ]
+    }
   ]
 }
