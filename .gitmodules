@@ -15,4 +15,4 @@
 	url = https://github.com/MoonsideGames/dav1dfile
 [submodule "lib/FNA3D"]
 	path = lib/FNA3D
-	url = /home/isn/dev/FNA3D_HLSL
+	url = https://github.com/isncg/FNA3D.git
