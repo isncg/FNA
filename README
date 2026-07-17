@@ -1,26 +1,66 @@
-This is FNA, an XNA4 reimplementation that focuses solely on developing a fully
-accurate XNA4 runtime for the desktop.
+# FNA (HLSL fork)
+
+这是 [FNA](https://fna-xna.github.io/) 的一个分支，将图形后端从上游 FNA3D（MojoShader/OpenGL/D3D11）替换为 **FNA3D_HLSL**（DXC/SPIR-V/Vulkan）。除此之外，XNA4 API 行为与上游保持一致。
+
+## 与上游 FNA 的主要区别
+
+| | 上游 FNA | 本分支 |
+|---|---|---|
+| 图形后端 | FNA3D (MojoShader) | **FNA3D_HLSL** (DXC → SPIR-V) |
+| Shader 格式 | .fxb (MojoShader 编译) | **.feb** (FNA3D Effect Binary) |
+| 渲染 API | OpenGL / D3D11 / Metal 等 | **仅 Vulkan** (通过 SDL_GPU) |
+| Stock Effect 实现 | MojoShader 32 着色器排列 | **多 technique HLSL**（严格顶点属性约定） |
+
+## 构建
+
+```bash
+# 构建 FNA C# 库
+dotnet build FNA.Core.csproj
+
+# 图形后端在 lib/FNA3D 子模块中（FNA3D_HLSL）
+cd lib/FNA3D
+cmake -B build -G Ninja . -DCMAKE_BUILD_TYPE=Release
+ninja -C build
+```
+
+## Shader 管线
+
+```
+HLSL 源码 (.hlsl)
+  → DXC -spirv -T vs_6_0 / ps_6_0
+    → SPIR-V 二进制
+      → feb_builder.py (.feb.json 清单)
+        → .feb 文件
+          → FNA3D_CreateEffect() → SDL_GPU/Vulkan
+```
+
+## 测试
+
+本仓库没有内建测试。所有测试位于 [FNA_Test](../FNA_Test/)：
+
+```bash
+cd ../FNA_Test
+./run_tests.sh
+```
+
+## Stock Effect 约定
+
+所有 HLSL 着色器遵循**严格 Effect–HLSL 顶点约定**：VS_INPUT 字段顺序必须等于顶点声明元素顺序，不声明超集属性，每种输入布局一个 technique。详见 [`../FNA_Test/docs/STOCK-EFFECT-DEVELOPMENT-GUIDE.md`](../FNA_Test/docs/STOCK-EFFECT-DEVELOPMENT-GUIDE.md)。
+
+## License
+
+Microsoft Public License。详见 LICENSE。
+
+---
+
+This is FNA, an XNA4 reimplementation that focuses solely on developing a fully accurate XNA4 runtime for the desktop.
 
 Project Website: https://fna-xna.github.io/
 
-License
--------
 FNA is released under the Microsoft Public License. See LICENSE for details.
 
-FNA uses LzxDecoder.cs, released under a dual MSPL/LGPL license.
-See lzxdecoder.LICENSE for details.
+FNA uses LzxDecoder.cs, released under a dual MSPL/LGPL license. See lzxdecoder.LICENSE for details.
 
-FNA uses code from the Mono.Xna project, released under the MIT license.
-See monoxna.LICENSE for details.
+FNA uses code from the Mono.Xna project, released under the MIT license. See monoxna.LICENSE for details.
 
-Documentation
--------------
-Documentation for FNA can be found on the FNA wiki:
-
-https://fna-xna.github.io/docs/
-
-Found an issue?
----------------
-Issues and patches can be reported via GitHub:
-
-https://github.com/FNA-XNA/FNA/issues
+Documentation for FNA can be found on the FNA wiki: https://fna-xna.github.io/docs/
