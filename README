@@ -34,6 +34,21 @@ HLSL 源码 (.hlsl)
           → FNA3D_CreateEffect() → SDL_GPU/Vulkan
 ```
 
+### 构建 Stock Effect
+
+```bash
+# 从 HLSL 源码重建所有 stock effect 的 FEB
+cd src/Graphics/Effect/StockEffects/HLSL_DXC
+for f in *.feb.json; do python3 ../../../../../tools/feb_builder.py "$f"; done
+cp *.feb ../FXB/
+```
+
+### 调试 FEB
+
+```bash
+python3 tools/feb_dump.py src/Graphics/Effect/StockEffects/HLSL_DXC/BasicEffect.feb
+```
+
 ## 测试
 
 本仓库没有内建测试。所有测试位于 [FNA_Test](../FNA_Test/)：
