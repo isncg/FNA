@@ -2,13 +2,12 @@
 // Supports up to 72 bones (288 registers). ShaderIndex controls fog/lighting.
 //
 // ShaderIndex bit layout (matching SkinnedEffect.cs OnApply):
-//   bit 0: fogEnabled (0=enabled, 1=disabled)
-//   bit 1: WeightsPerVertex == 2  (+2)
-//   bit 2: WeightsPerVertex == 4  (+4)
-//   lighting (no overlap with wpv bits):
-//     0:  3 lights, vertex
-//     +6: 1 light, vertex   (bits 1+2)
-//     +12: pixel lighting   (bits 2+3)
+//   bit 0 (1):   fogEnabled (1 = fog disabled)
+//   bit 1 (2):   WPV == 2
+//   bit 2 (4):   WPV == 4
+//   bit 3 (8):   oneLight (vertex 1-light)
+//   bit 4 (16):  pixel lighting
+//   bit 5 (32):  textureEnabled (always on)
 
 float4x4 World              : register(c0);
 float4x4 WorldInverseTranspose : register(c4);
@@ -109,17 +108,16 @@ VS_OUTPUT VSMain(VS_INPUT input)
 
     bool fogEnabled = ((ShaderIndex & 1) == 0);
 
-    // Decode lighting mode matching SkinnedEffect.cs OnApply encoding:
-    //   0:  3 lights, vertex lighting
-    //   6:  1 light, vertex lighting  (bits 1+2)
-    //   12: pixel lighting            (bits 2+3)
+    // Decode lighting (non-overlapping bits, shared with PS):
+    //   bit 4 (16): pixel lighting
+    //   bit 3 (8):  oneLight vertex
     int lightingMode;
-    if ((ShaderIndex & 12) == 12)
+    if ((ShaderIndex & 16) != 0)
         lightingMode = 3;  // pixel
-    else if ((ShaderIndex & 6) == 6)
+    else if ((ShaderIndex & 8) != 0)
         lightingMode = 2;  // vertex1Light
     else
-        lightingMode = 1;  // vertex3Lights (default — always lit in SkinnedEffect)
+        lightingMode = 1;  // vertex3Lights (default)
 
     // No vertex color in SkinnedEffect — use DiffuseColor directly
     float3 baseDiffuse = DiffuseColor.rgb;

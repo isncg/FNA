@@ -251,6 +251,11 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		internal readonly IntPtr GLDevice;
 
+		/* Expose the native FNA3D_Device* for ImGUI lifecycle calls
+		 * (FNA3D_ImGui_InitEXT / NewFrameEXT / ShutdownEXT).
+		 */
+		public IntPtr NativeDevice => GLDevice;
+
 		#endregion
 
 		#region Internal Pipeline Cache

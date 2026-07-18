@@ -514,6 +514,14 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 int shaderIndex = 0;
                 
+                /* Non-overlapping bit layout (shared by VS and PS):
+                 *   bit 0 (1):   fogEnabled (1 = fog disabled)
+                 *   bit 1 (2):   WPV == 2
+                 *   bit 2 (4):   WPV == 4
+                 *   bit 3 (8):   oneLight (vertex 1-light)
+                 *   bit 4 (16):  pixel lighting
+                 *   bit 5 (32):  textureEnabled (always on)
+                 */
                 if (!fogEnabled)
                     shaderIndex += 1;
                 
@@ -523,9 +531,11 @@ namespace Microsoft.Xna.Framework.Graphics
                     shaderIndex += 4;
                 
                 if (preferPerPixelLighting)
-                    shaderIndex += 12;
+                    shaderIndex += 16;
                 else if (oneLight)
-                    shaderIndex += 6;
+                    shaderIndex += 8;
+
+                shaderIndex += 32; /* bit 5: texture always enabled for SkinnedEffect */
 
                 shaderIndexParam.SetValue(shaderIndex);
 

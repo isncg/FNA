@@ -193,6 +193,19 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		#endregion
 
+		#region ImGUI Lifecycle (FNA3D_ImGui.h extension)
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_ImGui_InitEXT(IntPtr device);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_ImGui_NewFrameEXT(IntPtr device);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_ImGui_ShutdownEXT(IntPtr device);
+
+		#endregion
+
 		#region Driver Functions
 
 		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
@@ -946,7 +959,11 @@ namespace Microsoft.Xna.Framework.Graphics
 			IntPtr device,
 			string text
 		) {
-			byte* utf8Text = SDL2.SDL.Utf8EncodeHeap(text);
+			int len = System.Text.Encoding.UTF8.GetByteCount(text);
+			byte* utf8Text = (byte*) Marshal.AllocHGlobal(len + 1);
+			fixed (char* chars = text)
+				System.Text.Encoding.UTF8.GetBytes(chars, text.Length, utf8Text, len);
+			utf8Text[len] = 0;
 			FNA3D_SetStringMarker(device, utf8Text);
 			Marshal.FreeHGlobal((IntPtr) utf8Text);
 		}
@@ -961,9 +978,13 @@ namespace Microsoft.Xna.Framework.Graphics
 		public static unsafe void FNA3D_SetTextureName(
 			IntPtr device,
 			IntPtr texture,
-			string text 
+			string text
 		) {
-			byte* utf8Text = SDL2.SDL.Utf8EncodeHeap(text);
+			int len = System.Text.Encoding.UTF8.GetByteCount(text);
+			byte* utf8Text = (byte*) Marshal.AllocHGlobal(len + 1);
+			fixed (char* chars = text)
+				System.Text.Encoding.UTF8.GetBytes(chars, text.Length, utf8Text, len);
+			utf8Text[len] = 0;
 			FNA3D_SetTextureName(device, texture, utf8Text);
 			Marshal.FreeHGlobal((IntPtr) utf8Text);
 		}

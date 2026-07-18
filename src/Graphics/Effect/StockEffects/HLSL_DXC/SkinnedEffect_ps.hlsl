@@ -30,8 +30,14 @@ float4 PSMain(
     float3 worldPos    : TEXCOORD4
 ) : SV_TARGET0
 {
-    bool textureEnabled = ((ShaderIndex & 4) != 0);
-    int lightingMode = (ShaderIndex >> 3) & 3;
+    bool textureEnabled = ((ShaderIndex & 32) != 0);
+    int lightingMode;
+    if ((ShaderIndex & 16) != 0)
+        lightingMode = 3;  // pixel
+    else if ((ShaderIndex & 8) != 0)
+        lightingMode = 2;  // vertex1Light
+    else
+        lightingMode = 1;  // vertex3Lights
 
     float4 color;
     if (textureEnabled)
