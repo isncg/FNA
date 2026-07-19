@@ -1208,6 +1208,51 @@ namespace Microsoft.Xna.Framework.Graphics
 			return result;
 		}
 
+		/// <summary>
+		/// Binds storage buffers for vertex shader access.
+		/// Buffers must have been created with vertexRead=true or vertexWrite=true.
+		/// </summary>
+		public unsafe void SetVertexStorageBuffers(
+			int firstSlot,
+			params StorageBuffer[] buffers
+		) {
+			IntPtr* nativeBuffers = stackalloc IntPtr[buffers.Length];
+			for (int i = 0; i < buffers.Length; i++)
+			{
+				nativeBuffers[i] = buffers[i].buffer;
+			}
+			FNA3D.FNA3D_SetVertexStorageBuffers(
+				GLDevice,
+				nativeBuffers,
+				firstSlot,
+				buffers.Length,
+				0  /* read-only from vertex shader */
+			);
+		}
+
+		/// <summary>
+		/// Binds writable storage buffers for vertex shader write access.
+		/// Buffers must have been created with vertexWrite=true.
+		/// Requires vertexPipelineStoresAndAtomics Vulkan feature.
+		/// </summary>
+		public unsafe void SetVertexStorageBuffersWritable(
+			int firstSlot,
+			params StorageBuffer[] buffers
+		) {
+			IntPtr* nativeBuffers = stackalloc IntPtr[buffers.Length];
+			for (int i = 0; i < buffers.Length; i++)
+			{
+				nativeBuffers[i] = buffers[i].buffer;
+			}
+			FNA3D.FNA3D_SetVertexStorageBuffers(
+				GLDevice,
+				nativeBuffers,
+				firstSlot,
+				buffers.Length,
+				1  /* writable from vertex shader */
+			);
+		}
+
 		#endregion
 
 		#region DrawPrimitives: VertexBuffer, IndexBuffer

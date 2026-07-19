@@ -735,6 +735,52 @@ namespace Microsoft.Xna.Framework.Graphics
 
 		#endregion
 
+		#region Storage Buffers
+
+		/* IntPtr refers to an FNA3D_Buffer* */
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern IntPtr FNA3D_GenStorageBuffer(
+			IntPtr device,
+			int sizeInBytes,
+			byte vertexWrite,
+			byte vertexRead
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_AddDisposeStorageBuffer(
+			IntPtr device,
+			IntPtr buffer
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_SetStorageBufferData(
+			IntPtr device,
+			IntPtr buffer,
+			int offsetInBytes,
+			IntPtr data,
+			int dataLength
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static extern void FNA3D_GetStorageBufferData(
+			IntPtr device,
+			IntPtr buffer,
+			int offsetInBytes,
+			IntPtr data,
+			int dataLength
+		);
+
+		[DllImport(nativeLibName, CallingConvention = CallingConvention.Cdecl)]
+		public static unsafe extern void FNA3D_SetVertexStorageBuffers(
+			IntPtr device,
+			IntPtr* buffers,
+			int firstSlot,
+			int numBuffers,
+			byte writable
+		);
+
+		#endregion
+
 		#region Effects
 
 		/* IntPtr refers to an FNA3D_Effect* */

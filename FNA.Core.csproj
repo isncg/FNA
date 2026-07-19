@@ -258,6 +258,7 @@
 		<Compile Include="src\Graphics\Vertices\IndexBuffer.cs" />
 		<Compile Include="src\Graphics\Vertices\IndexElementSize.cs" />
 		<Compile Include="src\Graphics\Vertices\IVertexType.cs" />
+		<Compile Include="src\Graphics\Vertices\StorageBuffer.cs" />
 		<Compile Include="src\Graphics\Vertices\VertexBuffer.cs" />
 		<Compile Include="src\Graphics\Vertices\VertexBufferBinding.cs" />
 		<Compile Include="src\Graphics\Vertices\VertexDeclaration.cs" />
