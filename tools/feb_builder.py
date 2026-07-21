@@ -42,6 +42,22 @@ def compile_hlsl_to_spirv(src_path,entry,stage):
         for i in sorted(ti|si):
             cmd.extend(["-fvk-bind-register",f"t{i}","0",str(i),ss])
             cmd.extend(["-fvk-bind-register",f"s{i}","0",str(i),ss])
+        if ui:
+            # SDL3 resource set layout (Set 0 for VS, Set 2 for PS):
+            #   binding 0..N-1: samplers (N >= 1, forced by FNA3D)
+            #   binding N..: storage textures
+            #   binding ..: storage buffers (register(uX))
+            # Place u registers after the last sampler/texture register
+            # so they don't conflict with existing t/s bindings.
+            max_sampler = max(ti|si) if (ti|si) else -1
+            u_base = max(max_sampler + 1, 1)
+            for idx, i in enumerate(sorted(ui)):
+                cmd.extend([
+                    "-fvk-bind-register", f"u{i}",
+                    "0",                # register space
+                    str(u_base + idx),  # binding
+                    ss                  # descriptor set
+                ])
     r=subprocess.run(cmd,capture_output=True,text=True)
     if r.returncode!=0:
         print(f"DXC failed: {src_path}:{entry}",file=sys.stderr); print(r.stderr,file=sys.stderr); sys.exit(1)
